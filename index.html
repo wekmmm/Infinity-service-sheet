@@ -1,311 +1,71 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0b0b0b">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Infinity Service">
-  <title>Infinity Safe & Secure</title>
-  <style>
-    :root{
-      --bg:#090909;--panel:#171717;--panel2:#222;--line:#333;
-      --text:#fff;--muted:#aaa;--red:#d00000;--green:#198754;
-      --amber:#a46b00;--danger:#7f1d1d;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;background:var(--bg);color:var(--text);
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-      padding:calc(env(safe-area-inset-top) + 10px) 14px calc(env(safe-area-inset-bottom) + 18px)
-    }
-    .wrap{max-width:1100px;margin:auto}
-    header{display:flex;align-items:center;gap:12px;margin:8px 0 18px}
-    .logo{
-      width:48px;height:48px;border-radius:12px;background:var(--red);
-      display:grid;place-items:center;font-weight:900;font-size:22px
-    }
-    h1{font-size:24px;margin:0}.sub{color:var(--muted);margin:3px 0 0;font-size:14px}
-    .nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
-    .nav button{background:#1e1e1e}
-    .nav button.active{background:var(--red)}
-    .page{display:none}.page.active{display:block}
-    .card{background:var(--panel);border-radius:15px;padding:15px;margin:12px 0;border:1px solid #222}
-    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    .stat{background:var(--panel2);border-radius:12px;padding:14px}
-    .stat strong{display:block;font-size:30px;margin-top:5px}
-    input,textarea,select,button{
-      width:100%;font-size:16px;border-radius:10px;padding:13px;margin:6px 0
-    }
-    input,textarea,select{background:#101010;color:#fff;border:1px solid #444}
-    textarea{min-height:78px;resize:vertical}
-    button{border:0;background:var(--red);color:#fff;font-weight:700}
-    button.secondary{background:#333}button.success{background:var(--green)}
-    button.warn{background:var(--amber)}button.danger{background:var(--danger)}
-    button.smallbtn{padding:9px;font-size:14px}
-    .status{display:none;padding:11px;border-radius:10px;margin:10px 0;font-weight:700}
-    .status.ok{display:block;background:#133b21}.status.err{display:block;background:#4b1717}
-    .customer{background:#242424;border-radius:13px;padding:13px;margin:10px 0}
-    .customer h3{margin:0 0 4px}.small{font-size:13px;color:#bbb}
-    .due{font-weight:800;margin:9px 0}.overdue{color:#ff8d8d}.soon{color:#ffd166}
-    .actions{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
-    .toolbar{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .empty{color:#aaa;text-align:center;padding:24px 10px}
-    .history-row{padding:10px 0;border-bottom:1px solid #333}
-    .pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#333;font-size:12px}
-    @media(min-width:760px){
-      .grid{grid-template-columns:repeat(4,1fr)}
-      .toolbar{grid-template-columns:2fr 1fr 1fr}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090909">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Infinity Service">
+<title>Infinity Safe & Secure</title>
+<style>
+:root{--bg:#090909;--panel:#171717;--panel2:#222;--line:#383838;--text:#fff;--muted:#aaa;--red:#d00000;--green:#198754;--amber:#a46b00;--danger:#7f1d1d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;padding:calc(env(safe-area-inset-top) + 10px) 14px calc(env(safe-area-inset-bottom) + 18px)}
+.wrap{max-width:1100px;margin:auto}header{display:flex;align-items:center;gap:12px;margin:8px 0 18px}.logo{width:50px;height:50px;border-radius:13px;background:var(--red);display:grid;place-items:center;font-weight:900;font-size:22px}h1{font-size:24px;margin:0}.sub{color:var(--muted);margin:3px 0 0;font-size:14px}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:14px}.nav button{background:#1e1e1e;padding:11px 5px;font-size:13px}.nav button.active{background:var(--red)}.page{display:none}.page.active{display:block}.card{background:var(--panel);border-radius:15px;padding:15px;margin:12px 0;border:1px solid #222}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{background:var(--panel2);border-radius:12px;padding:14px}.stat strong{display:block;font-size:30px;margin-top:5px}
+input,textarea,select,button{width:100%;font-size:16px;border-radius:10px;padding:13px;margin:6px 0}input,textarea,select{background:#101010;color:#fff;border:1px solid #444}textarea{min-height:78px;resize:vertical}button{border:0;background:var(--red);color:#fff;font-weight:700}button.secondary{background:#333}button.success{background:var(--green)}button.warn{background:var(--amber)}button.danger{background:var(--danger)}button.smallbtn{padding:9px;font-size:14px}.status{display:none;padding:11px;border-radius:10px;margin:10px 0;font-weight:700}.status.ok{display:block;background:#133b21}.status.err{display:block;background:#4b1717}.customer{background:#242424;border-radius:13px;padding:13px;margin:10px 0}.customer h3{margin:0 0 4px}.small{font-size:13px;color:#bbb}.due{font-weight:800;margin:9px 0}.overdue{color:#ff8d8d}.soon{color:#ffd166}.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.toolbar{display:grid;grid-template-columns:1fr;gap:8px}.empty{color:#aaa;text-align:center;padding:24px 10px}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#333;font-size:12px;margin:2px}.photo{width:100%;max-height:210px;object-fit:cover;border-radius:10px;margin:8px 0}.login{position:fixed;inset:0;background:#080808;z-index:99;display:grid;place-items:center;padding:22px}.login.hidden{display:none}.loginbox{width:min(420px,100%);background:#171717;padding:22px;border-radius:18px;text-align:center}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.notice{background:#2b2105;border:1px solid #5e4808;padding:12px;border-radius:10px;color:#ffe39a}.history-row{padding:10px 0;border-bottom:1px solid #333}.detail-grid{display:grid;grid-template-columns:1fr;gap:8px}.detail-item{background:#222;border-radius:10px;padding:11px}.detail-item b{display:block;color:#aaa;font-size:12px;margin-bottom:4px}.detail-notes{white-space:pre-wrap;line-height:1.45}.modal{position:fixed;inset:0;background:#000c;z-index:50;display:none;align-items:center;justify-content:center;padding:15px}.modal.open{display:flex}.modalbox{background:#171717;width:min(650px,100%);max-height:90vh;overflow:auto;border-radius:16px;padding:16px}
+@media(min-width:760px){.grid{grid-template-columns:repeat(4,1fr)}.detail-grid{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:2fr 1fr 1fr}.nav button{font-size:15px}.actions{grid-template-columns:repeat(3,1fr)}}
+@media print{body{background:white;color:black}.no-print{display:none!important}}
+</style>
 </head>
 <body>
+<div id="login" class="login"><div class="loginbox"><div class="logo" style="margin:auto">IS</div><h2>Infinity Service Manager</h2><p class="small">Enter your PIN</p><input id="pinInput" type="password" inputmode="numeric" maxlength="8" placeholder="PIN"><button id="unlockBtn">Unlock</button><p id="pinHint" class="small"></p></div></div>
 <div class="wrap">
-  <header>
-    <div class="logo">IS</div>
-    <div>
-      <h1>Infinity Safe & Secure</h1>
-      <p class="sub">Service Manager</p>
-    </div>
-  </header>
-
-  <div id="status" class="status"></div>
-
-  <nav class="nav">
-    <button data-page="dashboard" class="active">Dashboard</button>
-    <button data-page="add">Add</button>
-    <button data-page="customers">Customers</button>
-    <button data-page="backup">Backup</button>
-  </nav>
-
-  <section id="dashboard" class="page active">
-    <div class="grid">
-      <div class="stat">Customers<strong id="total">0</strong></div>
-      <div class="stat">Due this month<strong id="dueMonth">0</strong></div>
-      <div class="stat">Overdue<strong id="overdue">0</strong></div>
-      <div class="stat">Due in 30 days<strong id="due30">0</strong></div>
-    </div>
-    <div class="card">
-      <h2>Services needing attention</h2>
-      <div id="attentionList"></div>
-    </div>
-  </section>
-
-  <section id="add" class="page">
-    <div class="card">
-      <h2>Add Customer</h2>
-      <input id="name" placeholder="Customer name">
-      <input id="phone" placeholder="Phone number" inputmode="tel">
-      <input id="email" placeholder="Email address" inputmode="email">
-      <textarea id="address" placeholder="Address"></textarea>
-      <label class="small">Installation date</label>
-      <input id="installDate" type="date">
-      <input id="systemType" placeholder="System type, e.g. alarm or CCTV">
-      <input id="servicePrice" type="number" step="0.01" placeholder="Annual service price (£)">
-      <textarea id="notes" placeholder="Notes"></textarea>
-      <button id="saveBtn">Save Customer</button>
-    </div>
-  </section>
-
-  <section id="customers" class="page">
-    <div class="card">
-      <div class="toolbar">
-        <input id="search" placeholder="Search customers">
-        <select id="filter">
-          <option value="all">All customers</option>
-          <option value="overdue">Overdue</option>
-          <option value="30">Due in 30 days</option>
-        </select>
-        <button class="secondary" id="sortBtn">Sort by due date</button>
-      </div>
-      <div id="customerList"></div>
-    </div>
-  </section>
-
-  <section id="backup" class="page">
-    <div class="card">
-      <h2>Backup and restore</h2>
-      <button id="exportBtn" class="secondary">Download Backup</button>
-      <input id="importFile" type="file" accept=".json,application/json">
-      <button id="importBtn" class="secondary">Restore Backup</button>
-      <p class="small">Customer data is saved on this iPad. Download a backup regularly in case Safari data is cleared.</p>
-    </div>
-    <div class="card">
-      <h2>App installation</h2>
-      <p class="small">Open the hosted app in Safari, tap Share, then Add to Home Screen.</p>
-    </div>
-  </section>
+<header><div class="logo">IS</div><div><h1>Infinity Safe & Secure</h1><p class="sub">Service Manager</p></div></header>
+<div id="status" class="status"></div>
+<nav class="nav"><button data-page="dashboard" class="active">Dashboard</button><button data-page="add">Add</button><button data-page="customers">Customers</button><button data-page="reminders">Reminders</button><button data-page="settings">Settings</button></nav>
+<section id="dashboard" class="page active"><div class="grid"><div class="stat">Customers<strong id="total">0</strong></div><div class="stat">Due this month<strong id="dueMonth">0</strong></div><div class="stat">Overdue<strong id="overdue">0</strong></div><div class="stat">Due in 30 days<strong id="due30">0</strong></div></div><div class="card"><h2>Services needing attention</h2><div id="attentionList"></div></div></section>
+<section id="add" class="page"><div class="card"><h2 id="formTitle">Add Customer</h2><input id="editId" type="hidden"><input id="name" placeholder="Customer name"><input id="phone" placeholder="Phone number" inputmode="tel"><input id="email" placeholder="Email address" inputmode="email"><textarea id="address" placeholder="Address"></textarea><label class="small">Installation date</label><input id="installDate" type="date"><input id="systemType" placeholder="System type, e.g. alarm or CCTV"><input id="servicePrice" type="number" step="0.01" placeholder="Annual service price (£)"><textarea id="notes" placeholder="Notes"></textarea><label class="small">Installation photo (optional)</label><input id="photoInput" type="file" accept="image/*" capture="environment"><img id="photoPreview" class="photo" style="display:none"><button id="saveBtn">Save Customer</button><button id="cancelEdit" class="secondary" style="display:none">Cancel Edit</button></div></section>
+<section id="customers" class="page"><div class="card"><div class="toolbar"><input id="search" placeholder="Search customers"><select id="filter"><option value="all">All customers</option><option value="overdue">Overdue</option><option value="30">Due in 30 days</option><option value="month">Due this month</option></select><button class="secondary" id="sortBtn">Sort by due date</button></div><div id="customerList"></div></div></section>
+<section id="reminders" class="page"><div class="card"><h2>Service reminders</h2><div class="notice">This free one-file version prepares reminder emails and shows due services. Fully automatic sending needs an online email service later.</div><div id="reminderList"></div></div></section>
+<section id="settings" class="page"><div class="card"><h2>Security</h2><input id="newPin" type="password" inputmode="numeric" maxlength="8" placeholder="New PIN (4–8 digits)"><button id="changePinBtn">Change PIN</button><button id="lockBtn" class="secondary">Lock App</button></div><div class="card"><h2>Backup and restore</h2><button id="exportBtn" class="secondary">Download Backup</button><input id="importFile" type="file" accept=".json,application/json"><button id="importBtn" class="secondary">Restore Backup</button><p class="small">Data and photos are saved in this browser on this device. Download a backup regularly.</p></div></section>
 </div>
-
+<div id="customerModal" class="modal"><div class="modalbox"><h2 id="customerDetailTitle">Customer details</h2><div id="customerDetailContent"></div><h3>Customer notes</h3><textarea id="customerDetailNotes" placeholder="Add notes about this customer"></textarea><button id="saveDetailNotesBtn" class="success">Save Notes</button><button class="secondary" onclick="closeCustomerDetails()">Close</button></div></div>
+<div id="historyModal" class="modal"><div class="modalbox"><h2 id="historyTitle">Service history</h2><div id="historyContent"></div><button class="secondary" onclick="closeHistory()">Close</button></div></div>
 <script>
 "use strict";
-const STORAGE_KEY="infinity_service_manager_v6";
-let customers=[];
-let sortAscending=true;
-const $=id=>document.getElementById(id);
+const STORAGE_KEY="infinity_service_manager_v8",PIN_KEY="infinity_service_pin";let customers=[],sortAscending=true,pendingPhoto="",activeDetailId="";const $=id=>document.getElementById(id);
+function showStatus(t,type="ok"){const b=$("status");b.textContent=t;b.className="status "+type;clearTimeout(window.statusTimer);window.statusTimer=setTimeout(()=>b.className="status",4500)}
+function loadData(){try{const raw=localStorage.getItem(STORAGE_KEY);customers=raw?JSON.parse(raw):[];if(!Array.isArray(customers))customers=[]}catch(e){customers=[];showStatus("Saved data could not be read.","err")}}
+function saveData(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(customers));return true}catch(e){showStatus("Storage is full. Remove large photos or download a backup.","err");return false}}
+function addOneYear(s){const d=new Date(s+"T12:00:00");d.setFullYear(d.getFullYear()+1);return d.toISOString().slice(0,10)}
+function fmt(s){return s?new Date(s+"T12:00:00").toLocaleDateString("en-GB"):""}function daysUntil(s){const t=new Date();t.setHours(0,0,0,0);return Math.ceil((new Date(s+"T00:00:00")-t)/86400000)}
+function esc(v){return String(v||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function switchPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));$(id).classList.add("active");document.querySelector(`[data-page="${id}"]`).classList.add("active");if(id==="reminders")renderReminders()}
+function resetForm(){["editId","name","phone","email","address","installDate","systemType","servicePrice","notes"].forEach(id=>$(id).value="");pendingPhoto="";$("photoInput").value="";$("photoPreview").style.display="none";$("formTitle").textContent="Add Customer";$("cancelEdit").style.display="none"}
+function saveCustomer(){const name=$("name").value.trim(),installDate=$("installDate").value;if(!name||!installDate){showStatus("Enter the customer name and installation date.","err");return}const id=$("editId").value;const existing=customers.find(x=>x.id===id);const data={name,phone:$("phone").value.trim(),email:$("email").value.trim(),address:$("address").value.trim(),installDate,systemType:$("systemType").value.trim(),servicePrice:$("servicePrice").value.trim(),notes:$("notes").value.trim(),photo:pendingPhoto};if(existing){Object.assign(existing,data);if(!existing.nextService)existing.nextService=addOneYear(installDate)}else customers.push({id:crypto.randomUUID?crypto.randomUUID():Date.now().toString(),...data,nextService:addOneYear(installDate),history:[],createdAt:new Date().toISOString()});if(saveData()){showStatus(existing?"Customer updated.":"Customer saved.");resetForm();render();switchPage("customers")}}
+function editCustomer(id){const c=customers.find(x=>x.id===id);if(!c)return;$("editId").value=c.id;["name","phone","email","address","installDate","systemType","servicePrice","notes"].forEach(k=>$(k).value=c[k]||"");pendingPhoto=c.photo||"";$("photoPreview").src=pendingPhoto;$("photoPreview").style.display=pendingPhoto?"block":"none";$("formTitle").textContent="Edit Customer";$("cancelEdit").style.display="block";switchPage("add")}
+function compressPhoto(file){const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{const max=900,scale=Math.min(1,max/img.width),c=document.createElement("canvas");c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);c.getContext("2d").drawImage(img,0,0,c.width,c.height);pendingPhoto=c.toDataURL("image/jpeg",.72);$("photoPreview").src=pendingPhoto;$("photoPreview").style.display="block"};img.src=r.result};r.readAsDataURL(file)}
+function completeService(id){const c=customers.find(x=>x.id===id);if(!c)return;const engineer=prompt("Engineer name:","");if(engineer===null)return;const notes=prompt("Service notes:","")||"";const today=new Date().toISOString().slice(0,10);c.history=c.history||[];c.history.push({serviceDate:today,previousDue:c.nextService,engineer,notes,certificateNo:"ISS-"+today.replaceAll("-","")+"-"+String(c.history.length+1).padStart(3,"0")});c.nextService=addOneYear(today);if(saveData()){showStatus("Service completed and moved forward 12 months.");render()}}
+function deleteCustomer(id){const c=customers.find(x=>x.id===id);if(!c||!confirm("Delete "+c.name+"?"))return;customers=customers.filter(x=>x.id!==id);if(saveData()){showStatus("Customer deleted.");render()}}
+function callCustomer(p){location.href="tel:"+p.replace(/\s+/g,"")}function emailCustomer(e){location.href="mailto:"+e}
+function reminderEmail(id){const c=customers.find(x=>x.id===id);if(!c||!c.email)return;const subject=encodeURIComponent("Annual security system service due");const body=encodeURIComponent(`Hello ${c.name},\n\nYour ${c.systemType||"security system"} is due for its annual service on ${fmt(c.nextService)}.\n\nPlease reply to arrange a suitable appointment.\n\nKind regards,\nInfinity Safe & Secure\n07513 195444`);location.href=`mailto:${c.email}?subject=${subject}&body=${body}`}
+function certificate(id){const c=customers.find(x=>x.id===id);if(!c)return;const last=(c.history||[]).slice(-1)[0],date=last?fmt(last.serviceDate):new Date().toLocaleDateString("en-GB"),eng=last?last.engineer:"",notes=last?last.notes:"",no=last?last.certificateNo:"ISS-DRAFT";const w=window.open("","_blank");w.document.write(`<html><head><title>${no}</title><style>body{font-family:Arial;padding:40px;color:#111}h1{color:#b40000}.box{border:2px solid #111;padding:25px;margin-top:20px}p{font-size:16px;line-height:1.55}</style></head><body><h1>Infinity Safe & Secure</h1><h2>Annual Service Certificate</h2><p><b>Certificate:</b> ${esc(no)}</p><div class="box"><p><b>Customer:</b> ${esc(c.name)}</p><p><b>Address:</b> ${esc(c.address)}</p><p><b>System:</b> ${esc(c.systemType)}</p><p><b>Service date:</b> ${date}</p><p><b>Engineer:</b> ${esc(eng)}</p><p><b>Service notes:</b> ${esc(notes)}</p><p><b>Next service due:</b> ${fmt(c.nextService)}</p><p>This confirms that the above security system was serviced by Infinity Safe & Secure.</p><br><p>Engineer signature: ____________________</p><p>Customer signature: ____________________</p></div><script>window.onload=()=>window.print();<\/script></body></html>`);w.document.close()}
 
-function showStatus(text,type="ok"){
-  const box=$("status");box.textContent=text;box.className="status "+type;
-  clearTimeout(window.statusTimer);window.statusTimer=setTimeout(()=>box.className="status",4500);
-}
-function loadData(){
-  try{
-    const raw=localStorage.getItem(STORAGE_KEY);
-    customers=raw?JSON.parse(raw):[];
-    if(!Array.isArray(customers))customers=[];
-  }catch(e){customers=[];showStatus("Saved data could not be read.","err")}
-}
-function saveData(){
-  try{
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(customers));
-    return true;
-  }catch(e){showStatus("This browser could not save the data.","err");return false}
-}
-function addOneYear(dateStr){
-  const d=new Date(dateStr+"T12:00:00");d.setFullYear(d.getFullYear()+1);
-  return d.toISOString().slice(0,10)
-}
-function formatDate(s){return s?new Date(s+"T12:00:00").toLocaleDateString("en-GB"):""}
-function daysUntil(s){
-  const t=new Date();t.setHours(0,0,0,0);
-  return Math.ceil((new Date(s+"T00:00:00")-t)/86400000)
-}
-function esc(v){
-  return String(v||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))
-}
-function switchPage(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
-  $(id).classList.add("active");
-  document.querySelector(`[data-page="${id}"]`).classList.add("active");
-}
-function addCustomer(){
-  const name=$("name").value.trim(),installDate=$("installDate").value;
-  if(!name||!installDate){showStatus("Enter the customer name and installation date.","err");return}
-  customers.push({
-    id:crypto.randomUUID?crypto.randomUUID():Date.now().toString(),
-    name,phone:$("phone").value.trim(),email:$("email").value.trim(),
-    address:$("address").value.trim(),installDate,
-    systemType:$("systemType").value.trim(),servicePrice:$("servicePrice").value.trim(),
-    notes:$("notes").value.trim(),nextService:addOneYear(installDate),history:[],
-    createdAt:new Date().toISOString()
-  });
-  if(saveData()){
-    ["name","phone","email","address","installDate","systemType","servicePrice","notes"].forEach(id=>$(id).value="");
-    showStatus("Customer saved.");
-    render();switchPage("customers")
-  }
-}
-function completeService(id){
-  const c=customers.find(x=>x.id===id);if(!c)return;
-  const engineer=prompt("Engineer name:","");
-  if(engineer===null)return;
-  const notes=prompt("Service notes:","")||"";
-  const today=new Date().toISOString().slice(0,10);
-  c.history=c.history||[];
-  c.history.push({serviceDate:today,previousDue:c.nextService,engineer,notes});
-  c.nextService=addOneYear(today);
-  if(saveData()){showStatus("Service completed and moved forward 12 months.");render()}
-}
-function deleteCustomer(id){
-  const c=customers.find(x=>x.id===id);if(!c||!confirm("Delete "+c.name+"?"))return;
-  customers=customers.filter(x=>x.id!==id);
-  if(saveData()){showStatus("Customer deleted.");render()}
-}
-function callCustomer(phone){location.href="tel:"+phone.replace(/\s+/g,"")}
-function emailCustomer(email){location.href="mailto:"+email}
-function certificate(id){
-  const c=customers.find(x=>x.id===id);if(!c)return;
-  const last=(c.history||[]).slice(-1)[0];
-  const serviceDate=last?formatDate(last.serviceDate):new Date().toLocaleDateString("en-GB");
-  const engineer=last?last.engineer:"";
-  const notes=last?last.notes:"";
-  const w=window.open("","_blank");
-  w.document.write(`<html><head><title>Service Certificate</title><style>
-  body{font-family:Arial;padding:40px;color:#111}h1{color:#b40000}.box{border:2px solid #111;padding:25px;margin-top:20px}
-  p{font-size:16px;line-height:1.55}</style></head><body>
-  <h1>Infinity Safe & Secure</h1><h2>Annual Service Certificate</h2><div class="box">
-  <p><b>Customer:</b> ${esc(c.name)}</p><p><b>Address:</b> ${esc(c.address)}</p>
-  <p><b>System:</b> ${esc(c.systemType)}</p><p><b>Service date:</b> ${serviceDate}</p>
-  <p><b>Engineer:</b> ${esc(engineer)}</p><p><b>Service notes:</b> ${esc(notes)}</p>
-  <p><b>Next service due:</b> ${formatDate(c.nextService)}</p>
-  <p>This confirms that the above security system was serviced by Infinity Safe & Secure.</p>
-  <br><p>Engineer signature: ______________________________</p>
-  <p>Customer signature: ______________________________</p></div>
-  <script>window.onload=()=>window.print();<\/script></body></html>`);
-  w.document.close()
-}
-function exportBackup(){
-  const blob=new Blob([JSON.stringify(customers,null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob),a=document.createElement("a");
-  a.href=url;a.download="Infinity-Service-Backup-"+new Date().toISOString().slice(0,10)+".json";
-  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)
-}
-function importBackup(){
-  const file=$("importFile").files[0];if(!file){showStatus("Choose a backup file first.","err");return}
-  const r=new FileReader();
-  r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d))throw new Error();
-    customers=d;if(saveData()){showStatus("Backup restored.");render()}}
-    catch(e){showStatus("That backup file is not valid.","err")}};
-  r.readAsText(file)
-}
-function statusFor(c){
-  const days=daysUntil(c.nextService);
-  if(days<0)return {text:"Overdue",cls:"overdue"};
-  if(days===0)return {text:"Due today",cls:"soon"};
-  if(days<=30)return {text:"Due in "+days+" days",cls:"soon"};
-  return {text:"Scheduled",cls:""}
-}
-function customerCard(c){
-  const s=statusFor(c);
-  return `<div class="customer">
-    <h3>${esc(c.name)}</h3>
-    <div class="small">${esc(c.phone)}</div>
-    <div class="small">${esc(c.address)}</div>
-    <div class="small">${esc(c.systemType)}</div>
-    <div class="due ${s.cls}">Next service: ${formatDate(c.nextService)} — ${s.text}</div>
-    ${c.servicePrice?`<span class="pill">£${esc(c.servicePrice)} service</span>`:""}
-    <div class="actions">
-      <button class="success smallbtn" onclick="completeService('${c.id}')">Complete Service</button>
-      <button class="secondary smallbtn" onclick="certificate('${c.id}')">Certificate</button>
-      ${c.phone?`<button class="secondary smallbtn" onclick="callCustomer('${esc(c.phone)}')">Call</button>`:""}
-      ${c.email?`<button class="secondary smallbtn" onclick="emailCustomer('${esc(c.email)}')">Email</button>`:""}
-      <button class="danger smallbtn" onclick="deleteCustomer('${c.id}')">Delete</button>
-    </div>
-  </div>`
-}
-function render(){
-  const now=new Date();let dm=0,od=0,d30=0;
-  customers.forEach(c=>{
-    const d=new Date(c.nextService+"T12:00:00"),days=daysUntil(c.nextService);
-    if(d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear())dm++;
-    if(days<0)od++;if(days>=0&&days<=30)d30++
-  });
-  $("total").textContent=customers.length;$("dueMonth").textContent=dm;
-  $("overdue").textContent=od;$("due30").textContent=d30;
-
-  const attention=customers.filter(c=>daysUntil(c.nextService)<=30)
-    .sort((a,b)=>a.nextService.localeCompare(b.nextService));
-  $("attentionList").innerHTML=attention.length?attention.map(customerCard).join(""):`<div class="empty">Nothing due in the next 30 days.</div>`;
-
-  const q=$("search").value.trim().toLowerCase(),filter=$("filter").value;
-  let list=customers.filter(c=>[c.name,c.phone,c.email,c.address,c.systemType,c.notes].join(" ").toLowerCase().includes(q));
-  if(filter==="overdue")list=list.filter(c=>daysUntil(c.nextService)<0);
-  if(filter==="30")list=list.filter(c=>{const d=daysUntil(c.nextService);return d>=0&&d<=30});
-  list.sort((a,b)=>sortAscending?a.nextService.localeCompare(b.nextService):b.nextService.localeCompare(a.nextService));
-  $("customerList").innerHTML=list.length?list.map(customerCard).join(""):`<div class="empty">No customers found.</div>`
-}
-document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>switchPage(b.dataset.page)));
-$("saveBtn").addEventListener("click",addCustomer);
-$("search").addEventListener("input",render);
-$("filter").addEventListener("change",render);
-$("sortBtn").addEventListener("click",()=>{sortAscending=!sortAscending;render()});
-$("exportBtn").addEventListener("click",exportBackup);
-$("importBtn").addEventListener("click",importBackup);
-loadData();render();
-
+function showCustomerDetails(id){const c=customers.find(x=>x.id===id);if(!c)return;activeDetailId=id;$("customerDetailTitle").textContent=c.name;const s=statusFor(c);$("customerDetailContent").innerHTML=`${c.photo?`<img class="photo" src="${c.photo}">`:""}<div class="detail-grid"><div class="detail-item"><b>Phone</b>${esc(c.phone)||"Not entered"}</div><div class="detail-item"><b>Email</b>${esc(c.email)||"Not entered"}</div><div class="detail-item"><b>Address</b>${esc(c.address)||"Not entered"}</div><div class="detail-item"><b>System</b>${esc(c.systemType)||"Not entered"}</div><div class="detail-item"><b>Installation date</b>${fmt(c.installDate)||"Not entered"}</div><div class="detail-item"><b>Next service</b><span class="${s.cls}">${fmt(c.nextService)} — ${s.text}</span></div><div class="detail-item"><b>Annual service price</b>${c.servicePrice?"£"+esc(c.servicePrice):"Not entered"}</div><div class="detail-item"><b>Completed services</b>${(c.history||[]).length}</div></div>`;$("customerDetailNotes").value=c.notes||"";$("customerModal").classList.add("open")}
+function closeCustomerDetails(){activeDetailId="";$("customerModal").classList.remove("open")}
+function saveDetailNotes(){const c=customers.find(x=>x.id===activeDetailId);if(!c)return;c.notes=$("customerDetailNotes").value.trim();if(saveData()){showStatus("Customer notes saved.");render();closeCustomerDetails()}}
+function showHistory(id){const c=customers.find(x=>x.id===id);if(!c)return;$("historyTitle").textContent=c.name+" — Service history";const h=(c.history||[]).slice().reverse();$("historyContent").innerHTML=h.length?h.map(x=>`<div class="history-row"><b>${fmt(x.serviceDate)}</b><div class="small">Engineer: ${esc(x.engineer)}</div><div>${esc(x.notes)}</div><div class="small">Certificate: ${esc(x.certificateNo||"")}</div></div>`).join(""):'<div class="empty">No completed services yet.</div>';$("historyModal").classList.add("open")}
+function closeHistory(){$("historyModal").classList.remove("open")}
+function exportBackup(){const blob=new Blob([JSON.stringify(customers,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="Infinity-Service-Backup-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}
+function importBackup(){const f=$("importFile").files[0];if(!f){showStatus("Choose a backup file first.","err");return}const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d))throw Error();customers=d;if(saveData()){showStatus("Backup restored.");render()}}catch(e){showStatus("That backup file is not valid.","err")}};r.readAsText(f)}
+function statusFor(c){const d=daysUntil(c.nextService);if(d<0)return{text:"Overdue",cls:"overdue"};if(d===0)return{text:"Due today",cls:"soon"};if(d<=30)return{text:"Due in "+d+" days",cls:"soon"};return{text:"Scheduled",cls:""}}
+function card(c){const s=statusFor(c);return `<div class="customer">${c.photo?`<img class="photo" src="${c.photo}">`:""}<h3>${esc(c.name)}</h3><div class="small">${esc(c.phone)}</div><div class="small">${esc(c.address)}</div><div class="small">${esc(c.systemType)}</div><div class="due ${s.cls}">Next service: ${fmt(c.nextService)} — ${s.text}</div>${c.servicePrice?`<span class="pill">£${esc(c.servicePrice)} service</span>`:""}<div class="actions"><button class="smallbtn" onclick="showCustomerDetails('${c.id}')">View Details & Notes</button><button class="success smallbtn" onclick="completeService('${c.id}')">Complete Service</button><button class="secondary smallbtn" onclick="certificate('${c.id}')">Certificate</button><button class="secondary smallbtn" onclick="editCustomer('${c.id}')">Edit</button><button class="secondary smallbtn" onclick="showHistory('${c.id}')">History</button>${c.phone?`<button class="secondary smallbtn" onclick="callCustomer('${esc(c.phone)}')">Call</button>`:""}${c.email?`<button class="secondary smallbtn" onclick="reminderEmail('${c.id}')">Email Reminder</button>`:""}<button class="danger smallbtn" onclick="deleteCustomer('${c.id}')">Delete</button></div></div>`}
+function renderReminders(){const list=customers.filter(c=>daysUntil(c.nextService)<=30).sort((a,b)=>a.nextService.localeCompare(b.nextService));$("reminderList").innerHTML=list.length?list.map(card).join(""):'<div class="empty">No reminders are due.</div>'}
+function render(){const now=new Date();let dm=0,od=0,d30=0;customers.forEach(c=>{const d=new Date(c.nextService+"T12:00:00"),days=daysUntil(c.nextService);if(d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear())dm++;if(days<0)od++;if(days>=0&&days<=30)d30++});$("total").textContent=customers.length;$("dueMonth").textContent=dm;$("overdue").textContent=od;$("due30").textContent=d30;const att=customers.filter(c=>daysUntil(c.nextService)<=30).sort((a,b)=>a.nextService.localeCompare(b.nextService));$("attentionList").innerHTML=att.length?att.map(card).join(""):'<div class="empty">Nothing due in the next 30 days.</div>';const q=$("search").value.trim().toLowerCase(),filter=$("filter").value;let list=customers.filter(c=>[c.name,c.phone,c.email,c.address,c.systemType,c.notes].join(" ").toLowerCase().includes(q));if(filter==="overdue")list=list.filter(c=>daysUntil(c.nextService)<0);if(filter==="30")list=list.filter(c=>{const d=daysUntil(c.nextService);return d>=0&&d<=30});if(filter==="month")list=list.filter(c=>{const d=new Date(c.nextService+"T12:00:00");return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()});list.sort((a,b)=>sortAscending?a.nextService.localeCompare(b.nextService):b.nextService.localeCompare(a.nextService));$("customerList").innerHTML=list.length?list.map(card).join(""):'<div class="empty">No customers found.</div>';renderReminders()}
+function setupPin(){let pin=localStorage.getItem(PIN_KEY);$("pinHint").textContent=pin?"":"First use: enter a 4–8 digit PIN to create it."}
+function unlock(){const entered=$("pinInput").value.trim(),saved=localStorage.getItem(PIN_KEY);if(!/^\d{4,8}$/.test(entered)){alert("Use a 4–8 digit PIN.");return}if(!saved){localStorage.setItem(PIN_KEY,entered);$("login").classList.add("hidden")}else if(entered===saved){$("login").classList.add("hidden")}else alert("Incorrect PIN.")}
+function changePin(){const p=$("newPin").value.trim();if(!/^\d{4,8}$/.test(p)){showStatus("Use a 4–8 digit PIN.","err");return}localStorage.setItem(PIN_KEY,p);$("newPin").value="";showStatus("PIN changed.")}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>switchPage(b.dataset.page)));$("saveBtn").addEventListener("click",saveCustomer);$("cancelEdit").addEventListener("click",()=>{resetForm();switchPage("customers")});$("photoInput").addEventListener("change",e=>{if(e.target.files[0])compressPhoto(e.target.files[0])});$("search").addEventListener("input",render);$("filter").addEventListener("change",render);$("sortBtn").addEventListener("click",()=>{sortAscending=!sortAscending;render()});$("exportBtn").addEventListener("click",exportBackup);$("importBtn").addEventListener("click",importBackup);$("unlockBtn").addEventListener("click",unlock);$("pinInput").addEventListener("keydown",e=>{if(e.key==="Enter")unlock()});$("changePinBtn").addEventListener("click",changePin);$("saveDetailNotesBtn").addEventListener("click",saveDetailNotes);$("lockBtn").addEventListener("click",()=>{$("pinInput").value="";$("login").classList.remove("hidden")});loadData();render();setupPin();
 </script>
-</body>
-</html>
+</body></html>
