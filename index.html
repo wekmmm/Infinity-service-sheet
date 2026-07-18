@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Infinity Service">
+  <title>Infinity Safe & Secure</title>
+  <style>
+    :root{
+      --bg:#090909;--panel:#171717;--panel2:#222;--line:#333;
+      --text:#fff;--muted:#aaa;--red:#d00000;--green:#198754;
+      --amber:#a46b00;--danger:#7f1d1d;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;background:var(--bg);color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      padding:calc(env(safe-area-inset-top) + 10px) 14px calc(env(safe-area-inset-bottom) + 18px)
+    }
+    .wrap{max-width:1100px;margin:auto}
+    header{display:flex;align-items:center;gap:12px;margin:8px 0 18px}
+    .logo{
+      width:48px;height:48px;border-radius:12px;background:var(--red);
+      display:grid;place-items:center;font-weight:900;font-size:22px
+    }
+    h1{font-size:24px;margin:0}.sub{color:var(--muted);margin:3px 0 0;font-size:14px}
+    .nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+    .nav button{background:#1e1e1e}
+    .nav button.active{background:var(--red)}
+    .page{display:none}.page.active{display:block}
+    .card{background:var(--panel);border-radius:15px;padding:15px;margin:12px 0;border:1px solid #222}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .stat{background:var(--panel2);border-radius:12px;padding:14px}
+    .stat strong{display:block;font-size:30px;margin-top:5px}
+    input,textarea,select,button{
+      width:100%;font-size:16px;border-radius:10px;padding:13px;margin:6px 0
+    }
+    input,textarea,select{background:#101010;color:#fff;border:1px solid #444}
+    textarea{min-height:78px;resize:vertical}
+    button{border:0;background:var(--red);color:#fff;font-weight:700}
+    button.secondary{background:#333}button.success{background:var(--green)}
+    button.warn{background:var(--amber)}button.danger{background:var(--danger)}
+    button.smallbtn{padding:9px;font-size:14px}
+    .status{display:none;padding:11px;border-radius:10px;margin:10px 0;font-weight:700}
+    .status.ok{display:block;background:#133b21}.status.err{display:block;background:#4b1717}
+    .customer{background:#242424;border-radius:13px;padding:13px;margin:10px 0}
+    .customer h3{margin:0 0 4px}.small{font-size:13px;color:#bbb}
+    .due{font-weight:800;margin:9px 0}.overdue{color:#ff8d8d}.soon{color:#ffd166}
+    .actions{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+    .toolbar{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .empty{color:#aaa;text-align:center;padding:24px 10px}
+    .history-row{padding:10px 0;border-bottom:1px solid #333}
+    .pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#333;font-size:12px}
+    @media(min-width:760px){
+      .grid{grid-template-columns:repeat(4,1fr)}
+      .toolbar{grid-template-columns:2fr 1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">IS</div>
+    <div>
+      <h1>Infinity Safe & Secure</h1>
+      <p class="sub">Service Manager</p>
+    </div>
+  </header>
+
+  <div id="status" class="status"></div>
+
+  <nav class="nav">
+    <button data-page="dashboard" class="active">Dashboard</button>
+    <button data-page="add">Add</button>
+    <button data-page="customers">Customers</button>
+    <button data-page="backup">Backup</button>
+  </nav>
+
+  <section id="dashboard" class="page active">
+    <div class="grid">
+      <div class="stat">Customers<strong id="total">0</strong></div>
+      <div class="stat">Due this month<strong id="dueMonth">0</strong></div>
+      <div class="stat">Overdue<strong id="overdue">0</strong></div>
+      <div class="stat">Due in 30 days<strong id="due30">0</strong></div>
+    </div>
+    <div class="card">
+      <h2>Services needing attention</h2>
+      <div id="attentionList"></div>
+    </div>
+  </section>
+
+  <section id="add" class="page">
+    <div class="card">
+      <h2>Add Customer</h2>
+      <input id="name" placeholder="Customer name">
+      <input id="phone" placeholder="Phone number" inputmode="tel">
+      <input id="email" placeholder="Email address" inputmode="email">
+      <textarea id="address" placeholder="Address"></textarea>
+      <label class="small">Installation date</label>
+      <input id="installDate" type="date">
+      <input id="systemType" placeholder="System type, e.g. alarm or CCTV">
+      <input id="servicePrice" type="number" step="0.01" placeholder="Annual service price (£)">
+      <textarea id="notes" placeholder="Notes"></textarea>
+      <button id="saveBtn">Save Customer</button>
+    </div>
+  </section>
+
+  <section id="customers" class="page">
+    <div class="card">
+      <div class="toolbar">
+        <input id="search" placeholder="Search customers">
+        <select id="filter">
+          <option value="all">All customers</option>
+          <option value="overdue">Overdue</option>
+          <option value="30">Due in 30 days</option>
+        </select>
+        <button class="secondary" id="sortBtn">Sort by due date</button>
+      </div>
+      <div id="customerList"></div>
+    </div>
+  </section>
+
+  <section id="backup" class="page">
+    <div class="card">
+      <h2>Backup and restore</h2>
+      <button id="exportBtn" class="secondary">Download Backup</button>
+      <input id="importFile" type="file" accept=".json,application/json">
+      <button id="importBtn" class="secondary">Restore Backup</button>
+      <p class="small">Customer data is saved on this iPad. Download a backup regularly in case Safari data is cleared.</p>
+    </div>
+    <div class="card">
+      <h2>App installation</h2>
+      <p class="small">Open the hosted app in Safari, tap Share, then Add to Home Screen.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+"use strict";
+const STORAGE_KEY="infinity_service_manager_v6";
+let customers=[];
+let sortAscending=true;
+const $=id=>document.getElementById(id);
+
+function showStatus(text,type="ok"){
+  const box=$("status");box.textContent=text;box.className="status "+type;
+  clearTimeout(window.statusTimer);window.statusTimer=setTimeout(()=>box.className="status",4500);
+}
+function loadData(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    customers=raw?JSON.parse(raw):[];
+    if(!Array.isArray(customers))customers=[];
+  }catch(e){customers=[];showStatus("Saved data could not be read.","err")}
+}
+function saveData(){
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(customers));
+    return true;
+  }catch(e){showStatus("This browser could not save the data.","err");return false}
+}
+function addOneYear(dateStr){
+  const d=new Date(dateStr+"T12:00:00");d.setFullYear(d.getFullYear()+1);
+  return d.toISOString().slice(0,10)
+}
+function formatDate(s){return s?new Date(s+"T12:00:00").toLocaleDateString("en-GB"):""}
+function daysUntil(s){
+  const t=new Date();t.setHours(0,0,0,0);
+  return Math.ceil((new Date(s+"T00:00:00")-t)/86400000)
+}
+function esc(v){
+  return String(v||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))
+}
+function switchPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  $(id).classList.add("active");
+  document.querySelector(`[data-page="${id}"]`).classList.add("active");
+}
+function addCustomer(){
+  const name=$("name").value.trim(),installDate=$("installDate").value;
+  if(!name||!installDate){showStatus("Enter the customer name and installation date.","err");return}
+  customers.push({
+    id:crypto.randomUUID?crypto.randomUUID():Date.now().toString(),
+    name,phone:$("phone").value.trim(),email:$("email").value.trim(),
+    address:$("address").value.trim(),installDate,
+    systemType:$("systemType").value.trim(),servicePrice:$("servicePrice").value.trim(),
+    notes:$("notes").value.trim(),nextService:addOneYear(installDate),history:[],
+    createdAt:new Date().toISOString()
+  });
+  if(saveData()){
+    ["name","phone","email","address","installDate","systemType","servicePrice","notes"].forEach(id=>$(id).value="");
+    showStatus("Customer saved.");
+    render();switchPage("customers")
+  }
+}
+function completeService(id){
+  const c=customers.find(x=>x.id===id);if(!c)return;
+  const engineer=prompt("Engineer name:","");
+  if(engineer===null)return;
+  const notes=prompt("Service notes:","")||"";
+  const today=new Date().toISOString().slice(0,10);
+  c.history=c.history||[];
+  c.history.push({serviceDate:today,previousDue:c.nextService,engineer,notes});
+  c.nextService=addOneYear(today);
+  if(saveData()){showStatus("Service completed and moved forward 12 months.");render()}
+}
+function deleteCustomer(id){
+  const c=customers.find(x=>x.id===id);if(!c||!confirm("Delete "+c.name+"?"))return;
+  customers=customers.filter(x=>x.id!==id);
+  if(saveData()){showStatus("Customer deleted.");render()}
+}
+function callCustomer(phone){location.href="tel:"+phone.replace(/\s+/g,"")}
+function emailCustomer(email){location.href="mailto:"+email}
+function certificate(id){
+  const c=customers.find(x=>x.id===id);if(!c)return;
+  const last=(c.history||[]).slice(-1)[0];
+  const serviceDate=last?formatDate(last.serviceDate):new Date().toLocaleDateString("en-GB");
+  const engineer=last?last.engineer:"";
+  const notes=last?last.notes:"";
+  const w=window.open("","_blank");
+  w.document.write(`<html><head><title>Service Certificate</title><style>
+  body{font-family:Arial;padding:40px;color:#111}h1{color:#b40000}.box{border:2px solid #111;padding:25px;margin-top:20px}
+  p{font-size:16px;line-height:1.55}</style></head><body>
+  <h1>Infinity Safe & Secure</h1><h2>Annual Service Certificate</h2><div class="box">
+  <p><b>Customer:</b> ${esc(c.name)}</p><p><b>Address:</b> ${esc(c.address)}</p>
+  <p><b>System:</b> ${esc(c.systemType)}</p><p><b>Service date:</b> ${serviceDate}</p>
+  <p><b>Engineer:</b> ${esc(engineer)}</p><p><b>Service notes:</b> ${esc(notes)}</p>
+  <p><b>Next service due:</b> ${formatDate(c.nextService)}</p>
+  <p>This confirms that the above security system was serviced by Infinity Safe & Secure.</p>
+  <br><p>Engineer signature: ______________________________</p>
+  <p>Customer signature: ______________________________</p></div>
+  <script>window.onload=()=>window.print();<\/script></body></html>`);
+  w.document.close()
+}
+function exportBackup(){
+  const blob=new Blob([JSON.stringify(customers,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;a.download="Infinity-Service-Backup-"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)
+}
+function importBackup(){
+  const file=$("importFile").files[0];if(!file){showStatus("Choose a backup file first.","err");return}
+  const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d))throw new Error();
+    customers=d;if(saveData()){showStatus("Backup restored.");render()}}
+    catch(e){showStatus("That backup file is not valid.","err")}};
+  r.readAsText(file)
+}
+function statusFor(c){
+  const days=daysUntil(c.nextService);
+  if(days<0)return {text:"Overdue",cls:"overdue"};
+  if(days===0)return {text:"Due today",cls:"soon"};
+  if(days<=30)return {text:"Due in "+days+" days",cls:"soon"};
+  return {text:"Scheduled",cls:""}
+}
+function customerCard(c){
+  const s=statusFor(c);
+  return `<div class="customer">
+    <h3>${esc(c.name)}</h3>
+    <div class="small">${esc(c.phone)}</div>
+    <div class="small">${esc(c.address)}</div>
+    <div class="small">${esc(c.systemType)}</div>
+    <div class="due ${s.cls}">Next service: ${formatDate(c.nextService)} — ${s.text}</div>
+    ${c.servicePrice?`<span class="pill">£${esc(c.servicePrice)} service</span>`:""}
+    <div class="actions">
+      <button class="success smallbtn" onclick="completeService('${c.id}')">Complete Service</button>
+      <button class="secondary smallbtn" onclick="certificate('${c.id}')">Certificate</button>
+      ${c.phone?`<button class="secondary smallbtn" onclick="callCustomer('${esc(c.phone)}')">Call</button>`:""}
+      ${c.email?`<button class="secondary smallbtn" onclick="emailCustomer('${esc(c.email)}')">Email</button>`:""}
+      <button class="danger smallbtn" onclick="deleteCustomer('${c.id}')">Delete</button>
+    </div>
+  </div>`
+}
+function render(){
+  const now=new Date();let dm=0,od=0,d30=0;
+  customers.forEach(c=>{
+    const d=new Date(c.nextService+"T12:00:00"),days=daysUntil(c.nextService);
+    if(d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear())dm++;
+    if(days<0)od++;if(days>=0&&days<=30)d30++
+  });
+  $("total").textContent=customers.length;$("dueMonth").textContent=dm;
+  $("overdue").textContent=od;$("due30").textContent=d30;
+
+  const attention=customers.filter(c=>daysUntil(c.nextService)<=30)
+    .sort((a,b)=>a.nextService.localeCompare(b.nextService));
+  $("attentionList").innerHTML=attention.length?attention.map(customerCard).join(""):`<div class="empty">Nothing due in the next 30 days.</div>`;
+
+  const q=$("search").value.trim().toLowerCase(),filter=$("filter").value;
+  let list=customers.filter(c=>[c.name,c.phone,c.email,c.address,c.systemType,c.notes].join(" ").toLowerCase().includes(q));
+  if(filter==="overdue")list=list.filter(c=>daysUntil(c.nextService)<0);
+  if(filter==="30")list=list.filter(c=>{const d=daysUntil(c.nextService);return d>=0&&d<=30});
+  list.sort((a,b)=>sortAscending?a.nextService.localeCompare(b.nextService):b.nextService.localeCompare(a.nextService));
+  $("customerList").innerHTML=list.length?list.map(customerCard).join(""):`<div class="empty">No customers found.</div>`
+}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>switchPage(b.dataset.page)));
+$("saveBtn").addEventListener("click",addCustomer);
+$("search").addEventListener("input",render);
+$("filter").addEventListener("change",render);
+$("sortBtn").addEventListener("click",()=>{sortAscending=!sortAscending;render()});
+$("exportBtn").addEventListener("click",exportBackup);
+$("importBtn").addEventListener("click",importBackup);
+loadData();render();
+
+</script>
+</body>
+</html>
